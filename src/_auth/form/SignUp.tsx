@@ -14,6 +14,7 @@ import {
 import { signUpValidation } from "@/lib/validation";
 import Loader from "@/components/shared/Loader";
 import { Link } from "react-router-dom";
+import { createUserAccount } from "@/lib/appwrite/api";
 
 const SignUp = () => {
   const isLoading = false;
@@ -29,8 +30,9 @@ const SignUp = () => {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof signUpValidation>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof signUpValidation>) {
+    const newUser = await createUserAccount(values);
+    console.log(newUser);
   }
   return (
     <Form {...form}>
@@ -61,7 +63,7 @@ const SignUp = () => {
           />
           <FormField
             control={form.control}
-            name="name"
+            name="username"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>UserName</FormLabel>
